@@ -12,5 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('layouts.default');
 });
+
+Route::post('/import-excel', 'ExcelController@import');

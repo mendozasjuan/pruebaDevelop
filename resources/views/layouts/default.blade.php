@@ -1,7 +1,12 @@
 @extends('layouts.blank')
 
 @section('content')
-
+    <form method="post" action="{{url('import-excel')}}" enctype="multipart/form-data">
+        {{csrf_field()}}
+        <input type="file" name="excel">
+        <br><br>
+        <input type="submit" value="Enviar" style="padding: 10px 20px;">
+    </form>
 @endsection
 
 @push('scripts')
@@ -10,7 +15,7 @@ $(function() {
     $('#users-table').DataTable({
         processing: true,
         serverSide: true,
-        ajax: '{!! route('datatables.data') !!}',
+       // ajax: '{-!! route('datatables.data') !!}',
         columns: [
             { data: 'id', name: 'id' },
             { data: 'name', name: 'name' },
