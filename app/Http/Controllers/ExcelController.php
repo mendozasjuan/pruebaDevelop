@@ -50,7 +50,9 @@ class ExcelController extends Controller
 	       
 	    
 	    });
-return json_encode($datos);
+	    $datos = json_encode($datos);
+	    return view('layouts.default', compact('datos'));
+//return json_encode($datos);
 	    
 	}
 }

@@ -27,17 +27,37 @@
 @push('scripts')
 <script>
 $(function() {
+
+    //var data = {{-- isset($datos) ? $datos : '' --}}
+    var data = [
+    [
+        "Tiger Nixon",
+        "System Architect",
+        "Edinburgh",
+        "5421",
+        "2011/04/25",
+        "$3,120"
+    }]]/*,
+    {
+        "Garrett Winters",
+        "Director",
+        "Edinburgh",
+        "8422",
+        "2011/07/25",
+        "$5,300"
+    }*/
+
+    //console.log(data);
     $('#users-table').DataTable({
-        processing: true,
-        serverSide: true,
-       // ajax: '{-!! route('datatables.data') !!}',
-        columns: [
+       data = data;
+        /*columns: [
             { data: 'id', name: 'id' },
             { data: 'name', name: 'name' },
             { data: 'email', name: 'email' },
             { data: 'created_at', name: 'created_at' },
             { data: 'updated_at', name: 'updated_at' }
-        ]
+        ]*/
+        
     });
 });
 </script>
