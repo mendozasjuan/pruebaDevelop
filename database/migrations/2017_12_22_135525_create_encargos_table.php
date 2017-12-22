@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Encargos extends Migration
+class CreateEncargosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -18,14 +18,12 @@ class Encargos extends Migration
             $table->string('albaran',10);
             $table->string('destinatario',28);
             $table->string('direccion',250);
-            $table->string('pob',10);
-            $table->string('destinatlacion',10);
+            $table->string('poblacion',10);
             $table->string('cp',5);
             $table->string('provincia',20);
             $table->string('telefono', 10);
             $table->string('observaciones',100);
             $table->dateTime('fecha');
-            //$table->rememberToken();
             $table->timestamps();
         });
     }
@@ -37,6 +35,6 @@ class Encargos extends Migration
      */
     public function down()
     {
-        chema::drop('encargos');
+        Schema::dropIfExists('encargos');
     }
 }
