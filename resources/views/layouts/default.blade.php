@@ -7,6 +7,21 @@
         <br><br>
         <input type="submit" value="Enviar" style="padding: 10px 20px;">
     </form>
+
+
+
+
+    <table class="table table-bordered" id="users-table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Created At</th>
+                <th>Updated At</th>
+            </tr>
+        </thead>
+    </table>
 @endsection
 
 @push('scripts')
