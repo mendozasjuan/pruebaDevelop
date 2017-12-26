@@ -56,24 +56,25 @@ $(document).ready(function() {
             success:function(data){
                 console.log(data);
                 $("#resultado").html("");
-                //let tabla = $("#tableDatos tbody");
+                let tabla = $("#tableDatos tbody");
+
+                //$('#myTable tbody').append(
                 $.each(data,function(i,campo){
-                    console.log(campo)
+                    let html = '<tr>';
+                    html += (campo.errors.albaran.length > 0 ? '<td class="errorCampo">' : '<td>' )+campo.albaran+'</td>';
+                    html += (campo.errors.destinatario.length > 0 ? '<td class="errorCampo">' : '<td>' )+campo.destinatario+'</td>';
+                    html += (campo.errors.direccion.length > 0 ? '<td class="errorCampo">' : '<td>' )+campo.direccion+'</td>';
+                    html += (campo.errors.poblacion.length > 0 ? '<td class="errorCampo">' : '<td>' )+campo.poblacion+'</td>';
+                    html += (campo.errors.cp.length > 0 ? '<td class="errorCampo">' : '<td>' )+campo.cp+'</td>';
+                    html += (campo.errors.provincia.length > 0 ? '<td class="errorCampo">' : '<td>' )+campo.provincia+'</td>';
+                    html += (campo.errors.telefono.length > 0 ? '<td class="errorCampo">' : '<td>' )+campo.telefono+'</td>';
+                    html += (campo.errors.observaciones.length > 0 ? '<td class="errorCampo">' : '<td>' )+campo.observaciones+'</td>';
+                    html += (campo.errors.fecha.length > 0 ? '<td class="errorCampo">' : '<td>' )+campo.fecha.date+'</td>';
+                    html += '</tr>';
+
+                    tabla.append(html);
+
                 });
-                $('#tableDatos').DataTable( {
-                    data: data,
-                    columns: [
-                        { data: "albaran" },
-                        { data: "destinatario" },
-                        { data: "direccion" },
-                        { data: "poblacion" },
-                        { data: "cp" },
-                        { data: "provincia" },
-                        { data: "telefono" },
-                        { data: "observaciones" },
-                        { data: "fecha.date" }
-                    ]
-                } );
             },
             error: function(jqXHR, textStatus, errorThrown)
             {
@@ -94,7 +95,21 @@ $(document).ready(function() {
 
         });
     });
-    
-} );
+
+
+    $('#tableDatos .errorCampo').quickEdit({
+                blur: false,
+                checkold: true,
+                space: false,
+                maxLength: 50,
+                showbtn: false,
+                submit: function (dom, newValue) {
+                    dom.text(newValue);
+                }
+            });
+
+        
+    });
+
 </script>
 @endpush

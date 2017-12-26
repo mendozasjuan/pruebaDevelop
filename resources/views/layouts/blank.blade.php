@@ -11,7 +11,7 @@
 	<!-- Bootstrap CSS -->
         <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
-
+        
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -25,6 +25,13 @@
 
             .errorData{
                 color:red;
+            }
+
+            .errorCampo{
+                border-top: 1px solid red!important;
+                border-left: 1px solid red!important;
+                border-right: 1px solid red!important;
+                border-bottom: 1px solid red!important;
             }
         </style>
 </head>
@@ -42,6 +49,7 @@
     <!-- Bootstrap JavaScript -->
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <!-- App scripts -->
+     <script src="{{ URL::to('js/jquery-quickedit.js') }}"></script>
     @stack('scripts')
 </body>
 </html>

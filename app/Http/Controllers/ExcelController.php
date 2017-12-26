@@ -49,7 +49,7 @@ class ExcelController extends Controller
 	        					'longitud' => 20
 	        				],
 	        				'telefono' => [
-	        					'dato' => (empty($row->telefono)) ? 0 : $row->telefono,
+	        					'dato' => $row->telefono,
 	        					'longitud' => 10
 	        				],
 	        				'observaciones' => [
@@ -60,20 +60,21 @@ class ExcelController extends Controller
 	        			];
 	        		//'errors' => $errors
 	        			$errors = $this->validarDatos($arrayDatos);
-	        			//exit(!array_key_exists('dato',$errors['albaran']));
+	        			//exit(print_r($errors));
 
 	        		array_push($datos,
-	        				[
+        				[
 	        				'albaran' => (empty($errors['albaran'])) ? $row->albaran : $errors['albaran'][0]['dato'],
-	        				'destinatario' => (empty($errors['albaran'])) ? $row->destinatario : $errors['destinatario'][0]['dato'],
+	        				'destinatario' => (empty($errors['destinatario'])) ? $row->destinatario : $errors['destinatario'][0]['dato'],
 	        				'direccion' => (empty($errors['direccion'])) ? $row->direccion : $errors['direccion'][0]['dato'],
 	        				'poblacion' => (empty($errors['poblacion'])) ? $row->poblacion : $errors['poblacion'][0]['dato'],
-	        				'cp' => $row->cp ,
+	        				'cp' => (empty($errors['cp'])) ? $row->cp : $errors['cp'][0]['dato'],
 	        				'provincia' => (empty($errors['provincia'])) ? $row->provincia : $errors['provincia'][0]['dato'],
-	        				'telefono' => (empty($row->telefono)) ? 0 : $row->telefono,
+	        				'telefono' => (empty($errors['telefono'])) ? $row->telefono : $errors['telefono'][0]['dato'],
 	        				'observaciones' => (empty($errors['observaciones'])) ? $row->observaciones : $errors['observaciones'][0]['dato'],
 	        				'fecha' => $row->fecha,
-	        				'errors' => $errors]
+	        				'errors' => $errors
+	        			]
 	        		);
 	        		
     			});
@@ -105,53 +106,43 @@ class ExcelController extends Controller
 		];
 
 		foreach ($datos as $clave => $valor){
-			if($clave == 'albaran'){
+
+			if($clave != 'fecha'){
 				if(empty($valor['dato'])){
-					array_push($errors['albaran'],
-						[
-							'vacio' => true
-					]);
-				}
-				if(!is_numeric($valor['dato'])){
-					array_push($errors['albaran'],
-						[
-							'numerico' => false
-					]);
-				}
-				if(strlen($valor['dato']) > $valor['longitud']){
-					array_push($errors['albaran'],
-						[
-							'longitud' => strlen($valor['dato']),
-							'dato' => substr($valor['dato'],0,$valor['longitud']).'<span class="errorData">'.substr($valor['dato'],$valor['longitud']).'</span>'
-					]);
-				}
-			}else if($clave != 'fecha'){
-				if(empty($valor['dato'])){
-				array_push($errors[$clave],
-					[
-						'vacio' => true
-				]);
-				}
-				if(!is_string($valor['dato'])){
 					array_push($errors[$clave],
 						[
-							'texto' => false
+							'vacio' => true,
+							'dato' => $valor['dato']
 					]);
-				}
-				if(strlen($valor['dato']) > $valor['longitud']){
-					array_push($errors[$clave],
-						[
-							'longitud' => strlen($valor['dato']),
-							'dato' => substr($valor['dato'],0,$valor['longitud']).'<span class="errorData">'.substr($valor['dato'],$valor['longitud']).'</span>'
-					]);
+				}else{
+					if(strlen($valor['dato']) > $valor['longitud']){
+						array_push($errors[$clave],
+							[
+								'longitud' => strlen($valor['dato']),
+								'dato' => substr($valor['dato'],0,$valor['longitud']).'<span class="errorData">'.substr($valor['dato'],$valor['longitud']).'</span>'
+						]);
+					}
+
+					if($clave == 'albaran'){
+						if(!is_numeric($valor['dato'])){
+							array_push($errors['albaran'],
+								[
+									'numerico' => false
+							]);
+						}	
+					}else{
+						if(!is_string($valor['dato'])){
+							array_push($errors[$clave],
+								[
+									'texto' => false
+							]);
+						}
+					}
 				}
 			}
+			
+			
 		}
-
-		
-
-		
-
 		return $errors;
 	}
 }
