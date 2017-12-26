@@ -22,6 +22,10 @@
             body {
                 padding-top: 40px;
             }
+
+            .errorData{
+                color:red;
+            }
         </style>
 </head>
 <body>
