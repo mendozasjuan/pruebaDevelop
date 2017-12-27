@@ -35,11 +35,16 @@
                 border-bottom: 1px solid red!important;
             }
 
+            .vacio {
+                height: 40px;
+            }
+
             .table-responsive
             {
                 overflow-x: auto;
                 overflow-y: auto;
             }
+
         </style>
 </head>
 <body>

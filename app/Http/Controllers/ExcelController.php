@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Encargo;
 use Excel;
 use Validator;
+use Carbon\Carbon;
 
 class ExcelController extends Controller
 {
@@ -13,15 +14,17 @@ class ExcelController extends Controller
 	{
 		$datos = [];
 		if($request->ajax()) {
-	    Excel::load($request->excel, function($reader) use (&$datos) {
 
+	    Excel::load($request->excel, function($reader) use (&$datos) {
+	    	//$reader->formatDates(false);
 	        $excel = $reader->get();
  
         
-	        //dd($excel->toJson());
+	        //exit($reader->dump());
 	        // iteracción
 	        
 	        $reader->each(function($sheet) use (&$datos) {
+	        	//exit($datos);
 	        	$sheet->each(function($row) use (&$datos) {
 	        		$arrayDatos = [ 
 	        				'albaran' => [
@@ -56,8 +59,12 @@ class ExcelController extends Controller
 	        					'dato' => $row->observaciones,
 	        					'longitud' => 500
 	        				],
-	        				'fecha' => $row->fecha,
+	        				'fecha' => [
+	        					'dato' => $row->fecha,
+	        					'longitud' => 0
+	        				]
 	        			];
+	        			//exit(print_r($arrayDatos));
 	        		//'errors' => $errors
 	        			$errors = $this->validarDatos($arrayDatos);
 	        			//exit('TEl '.(bool)empty($errors['telefono'][0]));
@@ -107,7 +114,7 @@ class ExcelController extends Controller
 		];
 
 		foreach ($datos as $clave => $valor){
-			if($clave != 'fecha')
+			//if($clave != 'fecha')
 				$error = $this->validar($clave,$valor['dato'],$valor['longitud']);
 
 			array_push($errors[$clave],$error);
@@ -154,7 +161,30 @@ class ExcelController extends Controller
 					}
 				}
 			}
+		}else{
+			//exit(Carbon::parse($dato)->format('d/m/Y h:i'));
+			if(empty($dato)){
+				array_push($error,
+					[
+						'vacio' => true,
+						'dato' => '',
+						'mensaje' => 'El campo no puede estar vacio'
+				]);
+			}else{
+				$regexFecha = '/^([0-2][0-9]|3[0-1])(\/|-)(0[1-9]|1[0-2])\2(\d{4})(\s)([0-1][0-9]|2[0-3])(:)([0-5][0-9])$/';
+
+				$fecha = $dato;
+
+				if ( !preg_match($regexFecha, $fecha, $matchFecha) ) {
+			        array_push($error,
+						[
+							'mensaje' => 'El Valor no tiene formato valido de Fecha dd/mm/aaaa hh:mm',
+							'dato' => $fecha
+					]);
+				}
+			}
 		}
+
 		if($lugar=='serv')
 			return $error;
 		else

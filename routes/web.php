@@ -15,5 +15,7 @@ Route::get('/', function () {
     return view('layouts.default');
 });
 
+
 Route::post('/import-excel', 'ExcelController@import');
 Route::name('validar')->post('/validar/{campo}/{dato}/{longitud}/{lugar}', 'ExcelController@validar');
+Route::name('exportar')->post('/exportar', 'ExcelController@exportar');
