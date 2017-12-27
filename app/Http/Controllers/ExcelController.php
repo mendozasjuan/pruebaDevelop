@@ -60,18 +60,19 @@ class ExcelController extends Controller
 	        			];
 	        		//'errors' => $errors
 	        			$errors = $this->validarDatos($arrayDatos);
-	        			//exit(print_r($errors));
+	        			//exit('TEl '.(bool)empty($errors['telefono'][0]));
 
+	        		//array_push($datos,$errors);
 	        		array_push($datos,
         				[
-	        				'albaran' => (empty($errors['albaran'])) ? $row->albaran : $errors['albaran'][0]['dato'],
-	        				'destinatario' => (empty($errors['destinatario'])) ? $row->destinatario : $errors['destinatario'][0]['dato'],
-	        				'direccion' => (empty($errors['direccion'])) ? $row->direccion : $errors['direccion'][0]['dato'],
-	        				'poblacion' => (empty($errors['poblacion'])) ? $row->poblacion : $errors['poblacion'][0]['dato'],
-	        				'cp' => (empty($errors['cp'])) ? $row->cp : $errors['cp'][0]['dato'],
-	        				'provincia' => (empty($errors['provincia'])) ? $row->provincia : $errors['provincia'][0]['dato'],
-	        				'telefono' => (empty($errors['telefono'])) ? $row->telefono : $errors['telefono'][0]['dato'],
-	        				'observaciones' => (empty($errors['observaciones'])) ? $row->observaciones : $errors['observaciones'][0]['dato'],
+	        				'albaran' => (empty($errors['albaran'][0][0])) ? $row->albaran : $errors['albaran'][0][0]['dato'],
+	        				'destinatario' => (empty($errors['destinatario'][0][0])) ? $row->destinatario : $errors['destinatario'][0][0]['dato'],
+	        				'direccion' => (empty($errors['direccion'][0][0])) ? $row->direccion : $errors['direccion'][0][0]['dato'],
+	        				'poblacion' => (empty($errors['poblacion'][0][0])) ? $row->poblacion : $errors['poblacion'][0][0]['dato'],
+	        				'cp' => (empty($errors['cp'][0][0])) ? $row->cp : $errors['cp'][0][0]['dato'],
+	        				'provincia' => (empty($errors['provincia'][0][0])) ? $row->provincia : $errors['provincia'][0][0]['dato'],
+	        				'telefono' => (empty($errors['telefono'][0][0])) ? $row->telefono : $errors['telefono'][0][0]['dato'],
+	        				'observaciones' => (empty($errors['observaciones'][0][0])) ? $row->observaciones : $errors['observaciones'][0][0]['dato'],
 	        				'fecha' => $row->fecha,
 	        				'errors' => $errors
 	        			]
@@ -83,7 +84,7 @@ class ExcelController extends Controller
 	       
 	    
 	    });
-
+	    //exit(print_r($datos));
 	    
 			return response()->json($datos);
 		}
@@ -106,43 +107,53 @@ class ExcelController extends Controller
 		];
 
 		foreach ($datos as $clave => $valor){
+			if($clave != 'fecha')
+				$error = $this->validar($clave,$valor['dato'],$valor['longitud']);
 
-			if($clave != 'fecha'){
-				if(empty($valor['dato'])){
-					array_push($errors[$clave],
+			array_push($errors[$clave],$error);
+		}
+		return $errors;
+	}
+
+	public function validar($campo,$dato,$longitud){
+		$error = [];
+		if($campo != 'fecha'){
+			if(empty($dato)){
+				array_push($error,
+					[
+						'vacio' => true,
+						'dato' => '',
+						'mensaje' => 'El campo no puede estar vacio'
+				]);
+			}else{
+				if(strlen($dato) > $longitud){
+					array_push($error,
 						[
-							'vacio' => true,
-							'dato' => $valor['dato']
+							'longitud' => strlen($dato),
+							'dato' => substr($dato,0,$longitud).'<span class="errorData">'.substr($dato,$longitud).'</span>',
+							'mensaje' => "El Valor debe Tener una Longitud maxima de $longitud caracteres. El resto sera desechado"
 					]);
-				}else{
-					if(strlen($valor['dato']) > $valor['longitud']){
-						array_push($errors[$clave],
-							[
-								'longitud' => strlen($valor['dato']),
-								'dato' => substr($valor['dato'],0,$valor['longitud']).'<span class="errorData">'.substr($valor['dato'],$valor['longitud']).'</span>'
-						]);
-					}
+				}
 
-					if($clave == 'albaran'){
-						if(!is_numeric($valor['dato'])){
-							array_push($errors['albaran'],
-								[
-									'numerico' => false
-							]);
-						}	
-					}else{
-						if(!is_string($valor['dato'])){
-							array_push($errors[$clave],
-								[
-									'texto' => false
-							]);
-						}
+				if($campo == 'albaran'){
+					if(!is_numeric($dato)){
+						array_push($error,
+							[
+								'numerico' => false,
+								'mensaje' => 'El Valor debe ser de tipo Numerico'
+						]);
+					}	
+				}else{
+					if(!is_string($dato)){
+						array_push($error,
+							[
+								'texto' => false, 
+								'El Valor debe ser de tipo texto'
+						]);
 					}
 				}
 			}
-			
-			
 		}
-		return $errors;
+		return $error;
 	}
 }

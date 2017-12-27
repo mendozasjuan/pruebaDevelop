@@ -16,3 +16,4 @@ Route::get('/', function () {
 });
 
 Route::post('/import-excel', 'ExcelController@import');
+Route::post('/validar', 'ExcelController@validar');

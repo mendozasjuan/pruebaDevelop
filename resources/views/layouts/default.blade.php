@@ -60,25 +60,27 @@ $(document).ready(function() {
 
                 //$('#myTable tbody').append(
                 $.each(data,function(i,campo){
+                    if(i == 14)
+                        console.log(campo.errors);
                     let html = '<tr>';
-                    html += (campo.errors.albaran.length > 0 ? 
-                        '<td><div class="errorCampo">'+campo.albaran+'</div></td>' : '<td>'+campo.albaran+'</td>' );
-                    html += (campo.errors.destinatario.length > 0 ? 
-                        '<td><div class="errorCampo">'+campo.destinatario+'</div></td>' : '<td>'+campo.destinatario+'</td>' );
-                    html += (campo.errors.direccion.length > 0 ? 
-                        '<td><div class="errorCampo">'+campo.direccion+'</div></td>' : '<td>'+campo.direccion+'</td>' );
-                    html += (campo.errors.poblacion.length > 0 ? 
-                        '<td><div class="errorCampo">'+campo.poblacion+'</div></td>' : '<td>'+campo.poblacion+'</td>');
-                    html += (campo.errors.cp.length > 0 ? 
-                        '<td><div class="errorCampo">'+campo.cp+'</div></td>' : '<td>'+campo.cp+'</td>' );
-                    html += (campo.errors.provincia.length > 0 ? 
-                        '<td><div class="errorCampo">'+campo.provincia+'</div></td>' : '<td>'+campo.provincia+'</td>' );
-                    html += (campo.errors.telefono.length > 0 ? 
-                        '<td><div class="errorCampo">'+campo.telefono+'</div></td>' : '<td>'+campo.telefono+'</td>' );
-                    html += (campo.errors.observaciones.length > 0 ? 
-                        '<td><div class="errorCampo">'+campo.observaciones+'</div></td>' : '<td>'+campo.observaciones+'</td>' );
-                    html += (campo.errors.fecha.length > 0 ? 
-                        '<td><div class="errorCampo">'+campo.fecha.date+'</div></td>' : '<td>'+campo.fecha.date+'</td>' );
+                    html += (campo.errors.albaran[0].length > 0 ? 
+                        '<td><div class="errorCampo" data-toggle="tooltip" title="'+campo.errors.albaran[0][0].mensaje+'">'+campo.albaran+'</div></td>' : '<td>'+campo.albaran+'</td>' );
+                    html += (campo.errors.destinatario[0].length > 0 ? 
+                        '<td><div class="errorCampo" data-toggle="tooltip" title="'+campo.errors.destinatario[0][0].mensaje+'">'+campo.destinatario+'</div></td>' : '<td>'+campo.destinatario+'</td>' );
+                    html += (campo.errors.direccion[0].length > 0 ? 
+                        '<td><div class="errorCampo" data-toggle="tooltip" title="'+campo.errors.direccion[0][0].mensaje+'">'+campo.direccion+'</div></td>' : '<td>'+campo.direccion+'</td>' );
+                    html += (campo.errors.poblacion[0].length > 0 ? 
+                        '<td><div class="errorCampo" data-toggle="tooltip" title="'+campo.errors.poblacion[0][0].mensaje+'">'+campo.poblacion+'</div></td>' : '<td>'+campo.poblacion+'</td>');
+                    html += (campo.errors.cp[0].length > 0 ? 
+                        '<td><div class="errorCampo" data-toggle="tooltip" title="'+campo.errors.cp[0][0].mensaje+'">'+campo.cp+'</div></td>' : '<td>'+campo.cp+'</td>' );
+                    html += (campo.errors.provincia[0].length > 0 ? 
+                        '<td><div class="errorCampo" data-toggle="tooltip" title="'+campo.errors.provincia[0][0].mensaje+'">'+campo.provincia+'</div></td>' : '<td>'+campo.provincia+'</td>' );
+                    html += (campo.errors.telefono[0].length > 0 ? 
+                        '<td><div class="errorCampo" data-toggle="tooltip" title="'+campo.errors.telefono[0][0].mensaje+'">'+campo.telefono+'</div></td>' : '<td>'+campo.telefono+'</td>' );
+                    html += (campo.errors.observaciones[0].length > 0 ? 
+                        '<td><div class="errorCampo" data-toggle="tooltip" title="'+campo.errors.observaciones[0][0].mensaje+'">'+campo.observaciones+'</div></td>' : '<td>'+campo.observaciones+'</td>' );
+                    html += (campo.errors.fecha[0].length > 0 ? 
+                        '<td><div class="errorCampo" data-toggle="tooltip" title="'+campo.errors.fecha[0][0].mensaje+'">'+campo.fecha.date+'</div></td>' : '<td>'+campo.fecha.date+'</td>' );
                     html += '</tr>';
 
                     tabla.append(html);
@@ -93,7 +95,7 @@ $(document).ready(function() {
                     maxLength: 50,
                     showbtn: false,
                     submit: function (dom, newValue) {
-                        alert('Modificado');
+                        
                         dom.text(newValue);
                     }
                 });
