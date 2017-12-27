@@ -64,31 +64,31 @@ $(document).ready(function() {
                         console.log(campo.errors);
                     let html = '<tr>';
                     html += (campo.errors.albaran[0].length > 0 ? 
-                        '<td><div class="errorCampo " data-toggle="tooltip" title="'+campo.errors.albaran[0][0].mensaje+'" data-campo="albaran" data-longitud="10">'+campo.albaran+'</div></td>' : '<td>'+campo.albaran+'</td>' );
+                        '<td><div class="errorCampo '+(campo.errors.albaran[0][0].vacio ? 'vacio' : '')+'" data-toggle="tooltip" title="'+campo.errors.albaran[0][0].mensaje+'" data-campo="albaran" data-longitud="10">'+campo.albaran+'</div></td>' : '<td>'+campo.albaran+'</td>' );
 
                     html += (campo.errors.destinatario[0].length > 0 ? 
-                        '<td><div class="errorCampo" data-toggle="tooltip" title="'+campo.errors.destinatario[0][0].mensaje+'" data-campo="destinatario" data-longitud="28">'+campo.destinatario+'</div></td>' : '<td>'+campo.destinatario+'</td>' );
+                        '<td><div class="errorCampo '+(campo.errors.destinatario[0][0].vacio ? 'vacio' : '')+'" data-toggle="tooltip" title="'+campo.errors.destinatario[0][0].mensaje+'" data-campo="destinatario" data-longitud="28">'+campo.destinatario+'</div></td>' : '<td>'+campo.destinatario+'</td>' );
 
                     html += (campo.errors.direccion[0].length > 0 ? 
-                        '<td><div class="errorCampo" data-toggle="tooltip" title="'+campo.errors.direccion[0][0].mensaje+'" data-campo="direccion" data-longitud="250">'+campo.direccion+'</div></td>' : '<td>'+campo.direccion+'</td>' );
+                        '<td><div class="errorCampo '+(campo.errors.direccion[0][0].vacio ? 'vacio' : '')+'" data-toggle="tooltip" title="'+campo.errors.direccion[0][0].mensaje+'" data-campo="direccion" data-longitud="250">'+campo.direccion+'</div></td>' : '<td>'+campo.direccion+'</td>' );
 
                     html += (campo.errors.poblacion[0].length > 0 ? 
-                        '<td><div  class="errorCampo" data-toggle="tooltip" title="'+campo.errors.poblacion[0][0].mensaje+'" data-campo="poblacion" data-longitud="10">'+campo.poblacion+'</div></td>' : '<td>'+campo.poblacion+'</td>');
+                        '<td><div  class="errorCampo '+(campo.errors.poblacion[0][0].vacio ? 'vacio' : '')+'" data-toggle="tooltip" title="'+campo.errors.poblacion[0][0].mensaje+'" data-campo="poblacion" data-longitud="10">'+campo.poblacion+'</div></td>' : '<td>'+campo.poblacion+'</td>');
 
                     html += (campo.errors.cp[0].length > 0 ? 
-                        '<td><div class="errorCampo" data-toggle="tooltip" title="'+campo.errors.cp[0][0].mensaje+'" data-campo="cp" data-longitud="5">'+campo.cp+'</div></td>' : '<td>'+campo.cp+'</td>' );
+                        '<td><div class="errorCampo '+(campo.errors.cp[0][0].vacio ? 'vacio' : '')+'" data-toggle="tooltip" title="'+campo.errors.cp[0][0].mensaje+'" data-campo="cp" data-longitud="5">'+campo.cp+'</div></td>' : '<td>'+campo.cp+'</td>' );
 
                     html += (campo.errors.provincia[0].length > 0 ? 
-                        '<td><div class="errorCampo" data-toggle="tooltip" title="'+campo.errors.provincia[0][0].mensaje+'" data-campo="provincia" data-longitud="20">'+campo.provincia+'</div></td>' : '<td>'+campo.provincia+'</td>' );
+                        '<td><div class="errorCampo '+(campo.errors.provincia[0][0].vacio ? 'vacio' : '')+'" data-toggle="tooltip" title="'+campo.errors.provincia[0][0].mensaje+'" data-campo="provincia" data-longitud="20">'+campo.provincia+'</div></td>' : '<td>'+campo.provincia+'</td>' );
 
                     html += (campo.errors.telefono[0].length > 0 ? 
                         '<td><div height="5px" class="errorCampo '+(campo.errors.telefono[0][0].vacio ? 'vacio' : '')+'" data-toggle="tooltip" title="'+campo.errors.telefono[0][0].mensaje+'" data-campo="telefono" data-longitud="10">'+campo.telefono+'</div></td>' : '<td>'+campo.telefono+'</td>' );
 
                     html += (campo.errors.observaciones[0].length > 0 ? 
-                        '<td><div class="errorCampo" data-toggle="tooltip" title="'+campo.errors.observaciones[0][0].mensaje+'" data-campo="observaciones" data-longitud="500">'+campo.observaciones+'</div></td>' : '<td>'+campo.observaciones+'</td>' );
+                        '<td><div class="errorCampo '+(campo.errors.observaciones[0][0].vacio ? 'vacio' : '')+'" data-toggle="tooltip" title="'+campo.errors.observaciones[0][0].mensaje+'" data-campo="observaciones" data-longitud="500">'+campo.observaciones+'</div></td>' : '<td>'+campo.observaciones+'</td>' );
 
                     html += (campo.errors.fecha[0].length > 0 ? 
-                        '<td><div class="errorCampo" data-toggle="tooltip" title="'+campo.errors.fecha[0][0].mensaje+'" data-campo="fecha" data-longitud="0">'+campo.fecha+'</div></td>' : '<td>'+campo.fecha.date+'</td>' );
+                        '<td><div class="errorCampo '+(campo.errors.fecha[0][0].vacio ? 'vacio' : '')+'" data-toggle="tooltip" title="'+campo.errors.fecha[0][0].mensaje+'" data-campo="fecha" data-longitud="0">'+campo.fecha+'</div></td>' : '<td>'+campo.fecha.date+'</td>' );
                     html += '</tr>';
 
                     tabla.append(html);
