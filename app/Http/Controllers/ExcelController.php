@@ -115,7 +115,8 @@ class ExcelController extends Controller
 		return $errors;
 	}
 
-	public function validar($campo,$dato,$longitud){
+	public function validar($campo,$dato,$longitud,$lugar='serv'){
+		//exit('pase');
 		$error = [];
 		if($campo != 'fecha'){
 			if(empty($dato)){
@@ -154,6 +155,9 @@ class ExcelController extends Controller
 				}
 			}
 		}
-		return $error;
+		if($lugar=='serv')
+			return $error;
+		else
+			return response()->json($error);
 	}
 }

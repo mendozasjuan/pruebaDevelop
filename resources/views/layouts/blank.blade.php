@@ -4,6 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 	<title>
 		Prueba Practica Develop
 	</title>
@@ -32,6 +33,12 @@
                 border-left: 1px solid red!important;
                 border-right: 1px solid red!important;
                 border-bottom: 1px solid red!important;
+            }
+
+            .table-responsive
+            {
+                overflow-x: auto;
+                overflow-y: auto;
             }
         </style>
 </head>
