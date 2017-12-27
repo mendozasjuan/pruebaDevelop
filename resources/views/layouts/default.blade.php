@@ -86,7 +86,7 @@ $(document).ready(function() {
 
                     html += (campo.errors.observaciones[0].length > 0 ? 
                         '<td><div class="errorCampo" data-toggle="tooltip" title="'+campo.errors.observaciones[0][0].mensaje+'" data-campo="observaciones" data-longitud="500">'+campo.observaciones+'</div></td>' : '<td>'+campo.observaciones+'</td>' );
-                    
+
                     html += (campo.errors.fecha[0].length > 0 ? 
                         '<td><div class="errorCampo" data-toggle="tooltip" title="'+campo.errors.fecha[0][0].mensaje+'" data-campo="fecha" data-longitud="10">'+campo.fecha.date+'</div></td>' : '<td>'+campo.fecha.date+'</td>' );
                     html += '</tr>';
@@ -128,7 +128,7 @@ $(document).ready(function() {
                             dataType: 'json',
                             success:function(data){
                                 if(data.length == 0){
-                                    dom[0].classList.remove('errorCampo')
+                                    dom[0].classList.remove("errorCampo")
                                     dom[0].removeAttribute("data-toggle")
                                     dom[0].removeAttribute("data-campo")
                                     dom[0].removeAttribute("title")
