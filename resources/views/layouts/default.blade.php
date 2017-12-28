@@ -5,17 +5,19 @@
         {{csrf_field()}}
         <input class="input" type="file" name="excel" id="archivo">
         <br><br>
-        <input class="btn btn-info" type="submit" value="Enviar" style="padding: 10px 20px;">
+        <input class="btn btn-info" type="submit" value="Procesar Fichero" style="padding: 10px 20px;">
     </form>
 
     <div id="resultado">
         
     </div>
 
-<div class="table-responsive">
+<div id="datos"  style="display: none">
+
 <form id="formExportar" method="post" action="{{url('exportar')}}" >
-<input class="btn btn-info" type="submit" value="exportar" style="padding: 10px 20px;">
-    <table class='table table-bordered table-striped display' id="tableDatos">
+<input id="btnExportar" class="btn btn-info" type="submit" value="exportar" style="padding: 10px 20px; display:none;">
+
+    <table class='table table-bordered table-striped display' id="tableDatos" width="100%" cellspacing="0">
         <thead>
             <tr>
                 <th>Albaran</th>
@@ -33,8 +35,10 @@
             
         </tbody>
     </table>
+
     </form>
     </div>
+
 @endsection
 
 @push('scripts')
@@ -58,6 +62,11 @@ $(document).ready(function() {
             },
             success:function(data){
                 console.log(data);
+                if(data.archivoVacio){
+                    $("#resultado").html("");
+                    alert(data.mensaje);
+                    return false;
+                }
                 $("#resultado").html("");
                 let tabla = $("#tableDatos tbody");
 
@@ -95,6 +104,8 @@ $(document).ready(function() {
                     html += '</tr>';
 
                     tabla.append(html);
+                    $("#datos").show();
+
 
                 });
 
@@ -151,6 +162,9 @@ $(document).ready(function() {
                                     dom.parent().append("<input type='hidden' name='"+campo+"[]' value='"+newValue+"'>");
                                    // dom.unbind();
                                     console.log(dom.data('campo'));
+                                    if($('.errorCampo').length == 0){
+                                        $("#btnExportar").show();
+                                    }
                                 }else{
                                     dom.html(data[0].dato);
                                     let campo=dom.data('campo');
@@ -189,10 +203,15 @@ $(document).ready(function() {
                     $("#resultado").html("Procesando, espere por favor...");
                 },
                 success:function(data){
-                    console.log(data);
+                    if(data.exito){
+                        alert(data.mensaje);
+                        $("#resultado").html("");
+                    }
                 }
             });
     });
+
+    
 });
 
 </script>

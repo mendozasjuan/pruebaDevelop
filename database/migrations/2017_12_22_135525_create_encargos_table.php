@@ -22,7 +22,7 @@ class CreateEncargosTable extends Migration
             $table->string('cp',5);
             $table->string('provincia',20);
             $table->string('telefono', 10);
-            $table->string('observaciones',100);
+            $table->string('observaciones',500);
             $table->dateTime('fecha');
             $table->timestamps();
         });

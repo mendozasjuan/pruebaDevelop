@@ -14,18 +14,38 @@ class ExcelController extends Controller
 	{
 		$datos = [];
 		if($request->ajax()) {
+			 $rules = [
+			 	'excel' => 'required'
+			 ];
+
+    $validator = Validator::make($request->all(), $rules);
+    if ($validator->fails()) {
+        return response()->json([
+        	'archivoVacio' => true,
+        	'mensaje' => 'Es Necesario seleccionar un archivo'
+        ]);
+    }
 
 	    Excel::load($request->excel, function($reader) use (&$datos) {
-	    	//$reader->formatDates(false);
-	        $excel = $reader->get();
- 
-        
-	        //exit($reader->dump());
-	        // iteracción
-	        
-	        $reader->each(function($sheet) use (&$datos) {
+	    	$excel = $reader->get();
+	    	$reader->formatDates(true, 'd/m/Y');
+	       
+	        $reader->each(function($sheet) use (&$datos,$reader) {
 	        	//exit($datos);
-	        	$sheet->each(function($row) use (&$datos) {
+	        	$sheet->each(function($row) use (&$datos,$reader) {
+	        		$fecha = explode('-',$row->fecha);
+	        		//exit(print_r($fecha));
+	        		/*if(!is_array($fecha)){
+	        			exit($row->fecha);
+	        		}
+	        		if(checkdate($fecha[0],$fecha[1],$fecha[2])){
+
+	        			$fecha = Carbon::createFromDate($fecha[2], $fecha[0], $fecha[1]);
+	        			exit("fecha: ".$row->fecha." nueva: ".$fecha);
+	        			//$fecha = Carbon::createFromFormat('d/m/Y', $row->fecha);	
+	        		}*/
+
+	        		//$row->fecha->format('d/m/Y');
 	        		$arrayDatos = [ 
 	        				'albaran' => [
 	        					'dato' => $row->albaran,
@@ -61,7 +81,7 @@ class ExcelController extends Controller
 	        				],
 	        				'fecha' => [
 	        					'dato' => $row->fecha,
-	        					'longitud' => 0
+	        					'longitud' => 0,
 	        				]
 	        			];
 	        			//exit(print_r($arrayDatos));
@@ -206,6 +226,9 @@ class ExcelController extends Controller
 		$datos = [];
 		foreach ($data['albaran'] as $llave => $encargo) {
 			//for ($i=0; $i < count($encargo); $i++) { 
+			   //$fecha = explode('/', $data['fecha'][$llave]);
+			   $fecha = Carbon::createFromFormat('d/m/Y H:i', $data['fecha'][$llave])->toDateTimeString();
+			   //exit(print_r($fecha));
 				array_push($datos,[
 					'albaran' => $data['albaran'][$llave],
 					'destinatario' =>$data['destinatario'][$llave],
@@ -215,7 +238,7 @@ class ExcelController extends Controller
 					'provincia' =>$data['provincia'][$llave],
 					'telefono' =>$data['telefono'][$llave],
 					'observaciones' =>$data['observaciones'][$llave],
-					'fecha' => $data['fecha'][$llave],
+					'fecha' => $fecha,
 				]);
 			//}
 			
@@ -231,7 +254,11 @@ class ExcelController extends Controller
 				'fecha' => $encargo->fecha,
      		]);*/
 		}
-		Encargo::insert($datos);
-		exit(print_r($datos));
+		if(Encargo::insert($datos)){
+			return json_encode([
+				'exito' => true,
+				'mensaje' => 'Datos Exportados con Exito'
+			]);
+		}
 	}
 }
