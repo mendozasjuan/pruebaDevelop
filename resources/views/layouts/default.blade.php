@@ -3,9 +3,9 @@
 @section('content')
     <form id="formExcel" method="post" action="{{url('import-excel')}}" enctype="multipart/form-data">
         {{csrf_field()}}
-        <input type="file" name="excel" id="archivo">
+        <input class="input" type="file" name="excel" id="archivo">
         <br><br>
-        <input type="submit" value="Enviar" style="padding: 10px 20px;">
+        <input class="btn btn-info" type="submit" value="Enviar" style="padding: 10px 20px;">
     </form>
 
     <div id="resultado">
@@ -14,7 +14,7 @@
 
 <div class="table-responsive">
 <form id="formExportar" method="post" action="{{url('exportar')}}" >
-<input type="submit" value="exportar" style="padding: 10px 20px;">
+<input class="btn btn-info" type="submit" value="exportar" style="padding: 10px 20px;">
     <table class='table table-bordered table-striped display' id="tableDatos">
         <thead>
             <tr>
