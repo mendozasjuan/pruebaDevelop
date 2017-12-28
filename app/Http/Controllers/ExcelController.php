@@ -115,15 +115,23 @@ class ExcelController extends Controller
 
 		foreach ($datos as $clave => $valor){
 			//if($clave != 'fecha')
-				$error = $this->validar($clave,$valor['dato'],$valor['longitud']);
+				$error = $this->validar($clave,$valor['dato'],$valor['longitud'],'serv');
 
 			array_push($errors[$clave],$error);
 		}
 		return $errors;
 	}
 
-	public function validar($campo,$dato,$longitud,$lugar='serv'){
-		//exit('pase');
+	public function validar($campo=null,$dato=null,$longitud=null,$lugar='client'){
+		if($lugar == 'client')
+		{
+			$request = request()->all();
+			//exit(print_r($request));
+			$campo = $request['campo'];
+			$dato = $request['dato'];
+			$longitud = $request['longitud'];
+		}
+		
 		$error = [];
 		if($campo != 'fecha'){
 			if(empty($dato)){
@@ -189,5 +197,41 @@ class ExcelController extends Controller
 			return $error;
 		else
 			return response()->json($error);
+	}
+
+	public function exportar(Request $request)
+	{
+		$data = $request->all();
+		//exit(print_r($data));
+		$datos = [];
+		foreach ($data['albaran'] as $llave => $encargo) {
+			//for ($i=0; $i < count($encargo); $i++) { 
+				array_push($datos,[
+					'albaran' => $data['albaran'][$llave],
+					'destinatario' =>$data['destinatario'][$llave],
+					'direccion' =>$data['direccion'][$llave],
+					'poblacion' =>$data['poblacion'][$llave],
+					'cp' =>$data['cp'][$llave],
+					'provincia' =>$data['provincia'][$llave],
+					'telefono' =>$data['telefono'][$llave],
+					'observaciones' =>$data['observaciones'][$llave],
+					'fecha' => $data['fecha'][$llave],
+				]);
+			//}
+			
+			/*Encargo::create([
+				'albaran' => $encargo['albaran'],
+				/*'destinatario' =>$ecargo->destinatario,
+				'direccion' =>$encargo->direccion,
+				'poblacion' =>$encargo->poblacion,
+				'cp' =>$encargo->cp,
+				'provincia' =>$encargo->provincia,
+				'telefono' =>$encargo->telefono,
+				'observaciones' =>$encargo->observaciones,
+				'fecha' => $encargo->fecha,
+     		]);*/
+		}
+		Encargo::insert($datos);
+		exit(print_r($datos));
 	}
 }
